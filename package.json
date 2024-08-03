@@ -1,0 +1,20 @@
+{
+  "name": "argus",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "^1.1.6"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "dev": "bun --hot run index.ts",
+    "build": "bun build client.ts --outdir dist --target=bun",
+    "clean": "rm -rf dist, rm stats.db",
+    "client": "bun dist/client.js"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Argus</title>
+  <style>
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+  <h1>Server Stats</h1>
+  <table id="statsTable">
+  </table>
+  <script>
+    async function fetchStats() {
+      const response = await fetch('/api/stats');
+      const data = await response.json();
+      const table = document.getElementById('statsTable');
+      table.innerHTML = '<tr><th>Hostname</th><th>Memory</th><th>Uptime</th></tr>';
+      data.forEach(stat => {
+        const row = table.insertRow();
+        row.insertCell(0).textContent = stat.hostname;
+        row.insertCell(1).textContent = stat.memory;
+        row.insertCell(2).textContent = stat.uptime;
+      });
+    }
+    setInterval(fetchStats, 60000);
+    fetchStats();
+  </script>
+</body>
+</html>
