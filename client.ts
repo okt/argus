@@ -1,6 +1,7 @@
+import chalk from 'chalk';
 import os from 'os';
 import { z } from 'zod';
-import { statsSchema } from "./schema";
+import { statsSchema } from './schema';
 
 type Stats = z.infer<typeof statsSchema>;
 
@@ -40,8 +41,8 @@ function getStats(): Stats {
     // Hostname
     stats.hostname = os.hostname();
     
-  } catch (error) {
-    console.error("Failed to get stats: " + error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) console.error("Failed to get stats: " + error.message);
   }
 
   const parsedStats = statsSchema.parse(stats);
@@ -55,8 +56,7 @@ async function sendStats() {
   const serverIp: string | undefined = process.env.SERVER_IP || "localhost";
   const serverPort: string | undefined = process.env.SERVER_PORT || "3000";
 
-  console.log(`Server IP: ${serverIp}, Server Port: ${serverPort}`);
-  console.log("********************************************");
+  console.log(`\nConnecting...\n${chalk.yellow("Server IP:")} ${serverIp}, ${chalk.yellow("Server Port:")} ${serverPort}`);
 
   if (!serverIp || !serverPort) {
     console.error("Server IP or port is not defined in environment variables.");
@@ -80,17 +80,18 @@ async function sendStats() {
     } else {
       console.error(`Server responded with status: ${response.status}`);
     }
-  } catch (error: Error) {
-    if (error.name === 'AbortError') {
-      console.error("Request timed out");
-    } else {
-      console.error(`Error occurred: ${error.message}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      if (error.name === 'AbortError') {
+        console.error("Request timed out");
+      } else {
+        console.error(`Error occurred: ${error.message}`);
+      }
     }
   } finally {
     process.exit();
   }
 }
-
-console.log("********************************************");
-console.log("Starting stats collection...");
+console.log(chalk.yellow.bold("\n═════════════════════════════════════════════════════════"));
+console.log(chalk.bold("Starting stats collection...\n"));
 sendStats();
