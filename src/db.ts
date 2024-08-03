@@ -11,9 +11,6 @@ const insertQuery = `INSERT INTO stats (${statsKeys.join(", ")}) VALUES (${stats
 
 export function insertStats(stats: Record<string, any>) {
   const values = statsKeys.map(key => stats[key]);
-  // console.log(chalk.cyan.bold("\n▆▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗"));
-  console.log(chalk.bgGreen.bold(`LOGGING TO DATABASE             ...OK`));
-
   db.run(insertQuery, ...values);
 }
 
