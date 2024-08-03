@@ -46,7 +46,7 @@ function getStats(): Stats {
   }
 
   const parsedStats = statsSchema.parse(stats);
-  console.log(parsedStats);
+  // console.log(parsedStats);
   return parsedStats;
 }
 
@@ -56,7 +56,7 @@ async function sendStats() {
   const serverIp: string | undefined = process.env.SERVER_IP || "localhost";
   const serverPort: string | undefined = process.env.SERVER_PORT || "3000";
 
-  console.log(`\nConnecting...\n${chalk.yellow("Server IP:")} ${serverIp}, ${chalk.yellow("Server Port:")} ${serverPort}`);
+  console.log(`${chalk.yellow("Connecting to:")} ${serverIp}:${serverPort}`);
 
   if (!serverIp || !serverPort) {
     console.error("Server IP or port is not defined in environment variables.");
@@ -76,7 +76,8 @@ async function sendStats() {
     clearTimeout(timeoutId);
 
     if (response.ok) {
-      console.log("Server responded with OK.");
+      console.log(`Server responded with: ${chalk.bold("200 OK")}`);
+      console.log(stats);
     } else {
       console.error(`Server responded with status: ${response.status}`);
     }
@@ -92,6 +93,6 @@ async function sendStats() {
     process.exit();
   }
 }
-console.log(chalk.yellow.bold("\n═════════════════════════════════════════════════════════"));
-console.log(chalk.bold("Starting stats collection...\n"));
+// console.log(chalk.yellow.bold("\n═════════════════════════════════════════════════════════"));
+console.log(chalk.bold("Starting stats collection..."));
 sendStats();

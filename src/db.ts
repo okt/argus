@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import { Database } from 'bun:sqlite';
 import { statsTableSchema, statsSchema } from './schema';
 
