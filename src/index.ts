@@ -5,7 +5,7 @@ import chalk from 'chalk';
 
 function logRequest(req: Request) {
   const timestamp = new Date().toISOString();
-  console.log(chalk.green(`\n[${timestamp}] ${req.method} ${req.url}`));
+  console.log(`[${timestamp}] ${chalk.white.bold(req.method)} ${chalk.green(req.url)}`);
 }
 
 const server = serve({
@@ -13,10 +13,9 @@ const server = serve({
   development: true,
   async fetch(req) {
     const path = new URL(req.url).pathname;
-    logRequest(req);
-
+    
     try {
-      console.warn(req.url);
+      logRequest(req);
       if (req.method === "GET" && path === "/") {
         try {
           return new Response(Bun.file("public/index.html"));
@@ -34,9 +33,9 @@ const server = serve({
       if (req.method === "POST" && path === "/api/stats") {
         const stats = await req.json();
         const result = statsSchema.safeParse(stats);
-        
-        console.log(chalk.yellow.bold(`\nPayload data:`));
-        console.log(result);
+        console.log(chalk.green.bold("▆▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗"));
+        console.log(chalk.bgGreen.bold(`PAYLOAD                         ...OK`));
+        console.log(result.data);
         if (result.success) {
           insertStats(result.data);
           return new Response("OK");
@@ -54,5 +53,7 @@ const server = serve({
   }
 });
 
-console.log(chalk.yellow.bold("\n═════════════════════════════════════════════════════════"));
-console.log(chalk.bold(`The server is listening on ${server.url}`));
+console.log(chalk.yellow.bold("\n▆▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗"));
+console.log(chalk.bgYellow.bold(`SERVER                          ...OK`));
+console.log(chalk.yellow.reset(`The server is listening on \n${chalk.yellow.bold(server.url)}\n`));
+

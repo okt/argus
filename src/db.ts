@@ -1,5 +1,6 @@
-import { Database } from "bun:sqlite";
-import { statsTableSchema, statsSchema } from "./schema";
+import chalk from 'chalk';
+import { Database } from 'bun:sqlite';
+import { statsTableSchema, statsSchema } from './schema';
 
 const db = new Database("stats.db");
 db.run(statsTableSchema);
@@ -10,6 +11,9 @@ const insertQuery = `INSERT INTO stats (${statsKeys.join(", ")}) VALUES (${stats
 
 export function insertStats(stats: Record<string, any>) {
   const values = statsKeys.map(key => stats[key]);
+  // console.log(chalk.cyan.bold("\n▆▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗▗"));
+  console.log(chalk.bgGreen.bold(`LOGGING TO DATABASE             ...OK`));
+
   db.run(insertQuery, ...values);
 }
 
