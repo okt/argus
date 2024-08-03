@@ -36,7 +36,7 @@ json list of `/api/stats`
 ```js
 {
   hostname: String,
-  memory: String,
-  uptime: String
+  memory: String, // Memory % usage
+  uptime: String // Full uptime text
 }
 ```
