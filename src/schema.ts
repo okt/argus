@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const statsSchema = z.object({
-  hostname: z.string().default('test-host'),
-  memory: z.string().default(''),
-  uptime: z.string().default(''),
+	hostname: z.string().default("test-host"),
+	memory: z.string().default(""),
+	uptime: z.string().default(""),
 });
 
 // SQL schema definition
